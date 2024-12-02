@@ -1,0 +1,12 @@
+{
+    "name": "3olen/tp-elections",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "TpElections\\": "src/"
+        }
+    },
+    "require": {
+        "php": "~8.3.0"
+    }
+}
