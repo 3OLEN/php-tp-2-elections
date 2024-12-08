@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+}
+
+/*region    -- Footer */
+footer {
+    padding-top: .75rem;
+    border-top: 2px solid #888;
+    margin-top: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+/*endregion -- Footer */
