@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 session_start();
@@ -12,6 +15,20 @@ if (str_starts_with(haystack: $path, needle: '/public/')) {
     return false;
 }
 
-// View avec paramètres utilisables
-$pageTitle = 'Bienvenue sur le site des élections 3OLEN !';
-require_once __DIR__ . '/templates/layout/base.php';
+// View avec Twig
+$twigTemplateLoader = new FilesystemLoader(paths: __DIR__ . '/templates');
+$twigEngine = new Environment(
+    loader: $twigTemplateLoader,
+    options: [
+        'strict_variables' => true,
+    ],
+);
+$twigEngine->addGlobal(name: 'session_id', value: session_id());
+
+echo $twigEngine->render(
+    name: 'pages/index.html.twig',
+    context: [
+        'page_title' => 'Bienvenue sur le site des élections 3OLEN !',
+        'group' => '3OLEN-DEV',
+    ]
+);

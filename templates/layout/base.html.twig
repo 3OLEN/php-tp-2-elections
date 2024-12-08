@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+{{ include('layout/_head.html.twig', with_context=false) }}
+
+<body>
+{{ include('layout/_page_header.html.twig', {
+    page_title,
+}, with_context=false) }}
+
+<main>
+    {% block content %}{% endblock content %}
+</main>
+
+{{ include('layout/_footer.html.twig', with_context=false) }}
+</body>
+</html>
+
+
+
+
+
