@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TpElections\Web;
 
+use TpElections\Controller\Error\NotFoundErrorController;
 use TpElections\Controller\Home\HomeController;
 use TpElections\Exception\Web\UnsupportedResourceException;
 
@@ -21,6 +22,7 @@ readonly class Router
         // Gestion du Controller
         $controller = match ($path) {
             '/' => new HomeController(),
+            default => new NotFoundErrorController(path: $path),
         };
         // * Utilisation d'un Controller "invokable" (super méthode « __invoke() »)
         $controller();

@@ -1,0 +1,7 @@
+{% set page_title = 'Page non trouvée !' %}
+{% extends 'layout/base.html.twig' %}
+
+{% block content %}
+    <p>La ressource {{ resource_value }} n'a pas été trouvée.</p>
+    <a href="/">Retour à l'accueil</a>
+{% endblock content %}
