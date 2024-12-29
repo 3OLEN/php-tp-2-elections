@@ -1,0 +1,35 @@
+services:
+  app:
+    image: 3olen-php-elections
+    build:
+      context: ./
+      dockerfile: docker/php/Dockerfile
+    depends_on:
+    - db
+    ports:
+    - "80:80"
+    volumes:
+    - .:/app
+    command: ["php", "-S", "0.0.0.0:80", "index.php"]
+    networks:
+    - 3olen-php-elections-network
+
+  db:
+    image: postgres:16-alpine
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_DB: "elections"
+      POSTGRES_USER: "usr_elections"
+      POSTGRES_PASSWORD: "!P@ssw0rD!"
+    volumes:
+    - pgdata:/var/lib/postgresql/data
+    networks:
+    - 3olen-php-elections-network
+
+volumes:
+  pgdata:
+
+networks:
+  3olen-php-elections-network:
+    driver: bridge
