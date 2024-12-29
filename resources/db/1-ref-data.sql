@@ -1,0 +1,43 @@
+INSERT INTO groupe (code, nom)
+VALUES
+      ('3OLEN_2425_CYBER', '3OLEN [24-25] CYBER')
+    , ('3OLEN_2425_DEV', '3OLEN [24-25] DEV')
+;
+
+-- Étudiants
+
+INSERT INTO individu (nom, prenom, groupe_id)
+VALUES
+      ('BACAR', 'Fehisoil', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('BACH', 'Loris', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('BAEZA', 'Julien', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('BAUDOY', 'Romain', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('BENAYOUN', 'David-israel', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('BERNS', 'Benjamin', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('BOISSIE', 'Angel', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('DANJARD-MAZA', 'Raphael', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('DI CICCO', 'Guillaume', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('GONNORD', 'Marine', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('JOLIVET', 'Eylann', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('KEBRITI', 'Eddy', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('KORCHIA', 'Maxime', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('KRIEF', 'Nataniel', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('MAHMOUDI', 'Nassim', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('MAILLET', 'Arthur', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('MARZERIDOUX', 'Hugo', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('MENDES MONTEIRO', 'Eduardo', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('MEUNIER', 'Anthony', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('MEZINE', 'Nail', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('MOUGOU', 'Marwan', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('NGO', 'Léonie', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('NIDAM', 'Mamoune', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('PAOLETTI', 'Erick', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('PICHON', 'Luca', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('PRONESTI', 'Andrew', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('REBOUL', 'Scott', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('RISPOLI', 'Mattéo', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('SAID', 'Amir', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+    , ('SMAJIC', 'Emrah', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('TRAPEAU', 'Gautier', (SELECT id FROM groupe WHERE code = '3OLEN_2425_CYBER'))
+    , ('YAZBEK', 'Rachel', (SELECT id FROM groupe WHERE code = '3OLEN_2425_DEV'))
+;
