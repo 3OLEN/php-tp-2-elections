@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace TpElections\Web;
 
+use TpElections\Controller\Elections\Creation\ElectionsCreationController;
+use TpElections\Controller\Elections\Creation\ElectionsCreationPostController;
+use TpElections\Controller\Elections\ElectionsController;
 use TpElections\Controller\Error\NotFoundErrorController;
 use TpElections\Controller\Groupes\Selection\SelectionGroupeController;
 use TpElections\Controller\Home\HomeController;
@@ -42,6 +45,10 @@ readonly class Router
     {
         return match ($requestPath) {
             '/' => new HomeController(),
+            '/elections' => new ElectionsController(),
+            '/elections/creation' => $requestMethod === 'POST'
+                ? new ElectionsCreationPostController()
+                : new ElectionsCreationController(),
             '/groupes/selection' => $requestMethod === 'POST'
                 ? new SelectionGroupeController()
                 : null,

@@ -37,4 +37,19 @@ SQL
 
         return $individus;
     }
+
+    public function countForGroupe(Groupe $groupe): int
+    {
+        $statement = DbConnection::getOrCreateInstance()->pdo->prepare(
+            query: <<<SQL
+SELECT COUNT(*)
+FROM individu
+WHERE groupe_id = :groupe_id
+SQL
+        );
+        $statement->bindValue(param: ':groupe_id', value: $groupe->id, type: \PDO::PARAM_INT);
+        $statement->execute();
+
+        return (int) $statement->fetchColumn();
+    }
 }

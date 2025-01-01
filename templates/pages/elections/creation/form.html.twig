@@ -1,0 +1,28 @@
+{% extends "layout/base.html.twig" %}
+
+{% block content %}
+    <section>
+        <header>
+            <h2>Nouvelle élection pour le groupe {{ groupe.nom }}</h2>
+        </header>
+        <main>
+            <p>Vous êtes sur le point de lancer une élection. Confirmez votre action.</p>
+
+            <dl>
+                <dt>Groupe</dt>
+                <dd>{{ groupe.nom }}</dd>
+
+                <dt>Effectifs</dt>
+                <dd>{{ groupe_count }}</dd>
+
+                <dt>Date de l'élection</dt>
+                <dd>{{ date('today')|date('d/m/Y') }}</dd>
+            </dl>
+
+            <form method="post">
+                <a href="/">Annuler</a>
+                <button type="submit">Lancer l'élection</button>
+            </form>
+        </main>
+    </section>
+{% endblock content %}

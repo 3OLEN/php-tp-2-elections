@@ -31,6 +31,8 @@ CREATE TABLE election
         CONSTRAINT election_pk
             PRIMARY KEY,
     groupe_id integer NOT NULL
+        CONSTRAINT election_unique_groupe_id
+            UNIQUE
         CONSTRAINT election_groupe_id_fk
             REFERENCES groupe,
     date date NOT NULL,
