@@ -1,6 +1,10 @@
 {% extends "layout/base.html.twig" %}
 
 {% block content %}
+    {% if informative_message ?? null %}
+        <p>{{ informative_message }}</p>
+    {% endif %}
+
     {% if current_elections | length > 0 %}
         <section>
             <header>

@@ -7,19 +7,14 @@ namespace TpElections\Controller\Elections;
 use TpElections\Model\Entity\Election;
 use TpElections\Model\Enum\EtatElectionEnum;
 use TpElections\Model\Repository\ElectionRepository;
-use TpElections\Web\Session\Provider\GroupSessionProvider;
+use TpElections\Utils\Controller\GroupControllerUtil;
 
 class ElectionsController
 {
     public function __invoke(): void
     {
-        // Un groupe doit être sélectionné, sinon redirection
-        $selectedGroup = GroupSessionProvider::findSelectedGroup();
-        if ($selectedGroup === null) {
-            header('Location: /');
-
-            return;
-        }
+        // Un groupe doit être sélectionné
+        $selectedGroup = GroupControllerUtil::getSelectedGroupOrRejectAction();
 
         // Récupération de l'élection liée au groupe
         $currentElection = (new ElectionRepository())->findForGroupe(groupe: $selectedGroup);

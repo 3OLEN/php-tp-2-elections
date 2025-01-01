@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TpElections\View;
 
+use TpElections\Web\Session\Provider\MessageSessionProvider;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -24,6 +25,10 @@ class TwigEngine
 
     public function renderTemplate(string $templateLocation, array $templateVariables): void
     {
+        if (MessageSessionProvider::hasMessageForNextAction()) {
+            $templateVariables['informative_message'] = MessageSessionProvider::getMessageForNextAction();
+        }
+
         $this->twigEnvironment->display(
             name: $templateLocation,
             context: $templateVariables,

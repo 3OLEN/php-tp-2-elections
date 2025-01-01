@@ -7,19 +7,14 @@ namespace TpElections\Controller\Elections\Creation;
 use TpElections\Controller\Error\BadRequestErrorController;
 use TpElections\Model\Entity\Election;
 use TpElections\Model\Repository\ElectionRepository;
-use TpElections\Web\Session\Provider\GroupSessionProvider;
+use TpElections\Utils\Controller\GroupControllerUtil;
 
 class ElectionsCreationPostController
 {
     public function __invoke(): void
     {
-        // Un groupe doit être sélectionné, sinon redirection
-        $selectedGroup = GroupSessionProvider::findSelectedGroup();
-        if ($selectedGroup === null) {
-            header('Location: /');
-
-            return;
-        }
+        // Un groupe doit être sélectionné
+        $selectedGroup = GroupControllerUtil::getSelectedGroupOrRejectAction(actionName: 'Création d\'élection');
 
         $electionRepository = new ElectionRepository();
 

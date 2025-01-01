@@ -10,15 +10,18 @@ use TpElections\Controller\Elections\ElectionsController;
 use TpElections\Controller\Error\NotFoundErrorController;
 use TpElections\Controller\Groupes\Selection\SelectionGroupeController;
 use TpElections\Controller\Home\HomeController;
+use TpElections\Exception\Controller\RequiredSelectedGroupException;
 use TpElections\Exception\Web\NotFoundException;
 use TpElections\Exception\Web\UnsupportedResourceException;
 use TpElections\Utils\File\ApplicationFileUtil;
+use TpElections\Utils\Router\PathUtil;
+use TpElections\Web\Session\Provider\MessageSessionProvider;
 
 readonly class Router
 {
     public function handleRequest(): void
     {
-        $path = parse_url(url: $_SERVER['REQUEST_URI'], component: PHP_URL_PATH);
+        $path = PathUtil::getRequestPath();
 
         // Gestion des assets (« /public »)
         try {
@@ -38,7 +41,7 @@ readonly class Router
             requestMethod: $_SERVER['REQUEST_METHOD'],
         );
         // * Utilisation d'un Controller "invokable" (super méthode « __invoke() »)
-        $controller();
+        $this->invokeController(controller: $controller);
     }
 
     private function getController(string $requestPath, string $requestMethod): object
@@ -55,5 +58,18 @@ readonly class Router
             default => null,
         }
             ?? new NotFoundErrorController(path: $requestPath);
+    }
+
+    private function invokeController(callable $controller): void
+    {
+        try {
+            $controller();
+        } catch (RequiredSelectedGroupException $requiredSelectedGroupException) {
+            // L'action nécessite de sélectionner le groupe => redirection vers page d'accueil
+            MessageSessionProvider::defineMessageForNextAction(
+                message: $requiredSelectedGroupException->getMessage(),
+            );
+            header('Location: /');
+        }
     }
 }
