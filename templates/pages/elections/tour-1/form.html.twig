@@ -1,0 +1,38 @@
+{% extends "layout/base.html.twig" %}
+
+{% block content %}
+    <section>
+        <header>
+            <h2>Enregistrement de vote pour les élections du groupe {{ election.groupe.nom }}</h2>
+        </header>
+        <main>
+            <p>Veuillez sélectionner le votant et sa décision de vote.</p>
+            <p>Si aucun candidat n'a été sélectionné, le vote sera comptabilisé "nul".</p>
+
+            <form method="post">
+                <fieldset>
+                    <legend>Vote</legend>
+
+                    <label for="votant">Votant</label>
+                    <select name="votant" id="votant" required>
+                        <option value="">-- Sélectionner le votant --</option>
+                        {% for votant in individus_required_vote %}
+                            <option value="{{ votant.id }}">{{ votant.nom }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="candidat">Candidat</label>
+                    <select name="candidat" id="candidat">
+                        <option value="">-- Vote nul --</option>
+                        {% for candidat in candidats %}
+                            <option value="{{ candidat.id }}">{{ candidat.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </fieldset>
+
+                <a href="/">Annuler</a>
+                <button type="submit">Valider vote</button>
+            </form>
+        </main>
+    </section>
+{% endblock content %}

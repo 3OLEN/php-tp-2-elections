@@ -4,17 +4,25 @@ declare(strict_types=1);
 
 namespace TpElections\Web;
 
-use TpElections\Controller\Elections\Creation\ElectionsCreationController;
-use TpElections\Controller\Elections\Creation\ElectionsCreationPostController;
-use TpElections\Controller\Elections\ElectionsController;
-use TpElections\Controller\Error\NotFoundErrorController;
-use TpElections\Controller\Groupes\Selection\SelectionGroupeController;
-use TpElections\Controller\Home\HomeController;
-use TpElections\Exception\Controller\RequiredSelectedGroupException;
-use TpElections\Exception\Web\NotFoundException;
-use TpElections\Exception\Web\UnsupportedResourceException;
-use TpElections\Utils\File\ApplicationFileUtil;
-use TpElections\Utils\Router\PathUtil;
+use TpElections\Controller\{
+    Elections\Creation\ElectionsCreationController,
+    Elections\Creation\ElectionsCreationPostController,
+    Elections\ElectionsController,
+    Elections\Tour1\ElectionsTour1Controller,
+    Elections\Tour1\ElectionsTour1PostController,
+    Error\NotFoundErrorController,
+    Groupes\Selection\SelectionGroupeController,
+    Home\HomeController
+};
+use TpElections\Exception\{
+    Controller\RequiredElectionForGroupeException,
+    Controller\RequiredSelectedGroupException,
+    Web\NotFoundException,
+    Web\UnsupportedResourceException};
+use TpElections\Utils\{
+    File\ApplicationFileUtil,
+    Router\PathUtil
+};
 use TpElections\Web\Session\Provider\MessageSessionProvider;
 
 readonly class Router
@@ -52,6 +60,9 @@ readonly class Router
             '/elections/creation' => $requestMethod === 'POST'
                 ? new ElectionsCreationPostController()
                 : new ElectionsCreationController(),
+            '/elections/tour-1' => $requestMethod === 'POST'
+                ? new ElectionsTour1PostController()
+                : new ElectionsTour1Controller(),
             '/groupes/selection' => $requestMethod === 'POST'
                 ? new SelectionGroupeController()
                 : null,
@@ -65,9 +76,15 @@ readonly class Router
         try {
             $controller();
         } catch (RequiredSelectedGroupException $requiredSelectedGroupException) {
-            // L'action nécessite de sélectionner le groupe => redirection vers page d'accueil
+            // L'action nécessite de sélectionner le groupe => redirection accueil
             MessageSessionProvider::defineMessageForNextAction(
                 message: $requiredSelectedGroupException->getMessage(),
+            );
+            header('Location: /');
+        } catch (RequiredElectionForGroupeException $requiredElectionForGroupeException) {
+            // L'action nécessite une élection pour le groupe ou d'avoir la bonne étape => redirection accueil
+            MessageSessionProvider::defineMessageForNextAction(
+                message: $requiredElectionForGroupeException->getMessage(),
             );
             header('Location: /');
         }

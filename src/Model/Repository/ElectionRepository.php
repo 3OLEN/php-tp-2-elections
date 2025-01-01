@@ -90,6 +90,27 @@ SQL
         $statement->execute();
     }
 
+    public function saveForNextStep(Election $election): void
+    {
+        $election->setEtat(
+            match ($election->getEtat()) {
+                EtatElectionEnum::TOUR_1 => EtatElectionEnum::TOUR_2,
+                EtatElectionEnum::TOUR_2 => EtatElectionEnum::CLOTURE,
+            }
+        );
+
+        $statement = DbConnection::getOrCreateInstance()->pdo->prepare(
+            query: <<<SQL
+UPDATE election
+SET etat = :etat
+WHERE id = :id
+SQL
+        );
+        $statement->bindValue(param: ':etat', value: $election->getEtat()->name);
+        $statement->bindValue(param: ':id', value: $election->id, type: \PDO::PARAM_INT);
+        $statement->execute();
+    }
+
     public function existsForGroupe(Groupe $groupe): bool
     {
         $statement = DbConnection::getOrCreateInstance()->pdo->prepare(

@@ -51,5 +51,7 @@ CREATE TABLE vote
     candidat_id integer
         CONSTRAINT vote_candidat_individu_id_fk
             REFERENCES individu,
-    tour enum_tour NOT NULL
+    tour enum_tour NOT NULL,
+    CONSTRAINT vote_unique_votant_id_tour
+        UNIQUE (tour, votant_id)
 );
