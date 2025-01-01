@@ -5,29 +5,6 @@
         <p>{{ informative_message }}</p>
     {% endif %}
 
-    {% if current_elections | length > 0 %}
-        <section>
-            <header>
-                <h2>Élections en cours</h2>
-            </header>
-            <main>
-                <p>Il y a actuellement <u>{{ current_elections | length }}</u> élection·s en cours.</p>
-                <ul>
-                    {% for election in current_elections %}
-                        <li>
-                            [{{ election.groupe.nom }}] Lancée le {{ election.date | date('d/m/Y') }} et actuellement à
-                            l'étape « {{ election.etat.name }} ».
-
-                            {% if election.etat is not same as(election_tour_1) %}
-                                <a href="/elections/tour-1/resultats">Résultats du Tour 1</a>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </main>
-        </section>
-    {% endif %}
-
     <section>
         <header>
             <h2>Sélection du groupe</h2>
@@ -39,12 +16,12 @@
                 <label for="group">Groupe</label>
                 <select name="group" id="group" required>
                     <option value="">-- Sélectionner un groupe --</option>
-                    {% for group in groups %}
+                    {% for groupe in groupes %}
                         <option
-                            value="{{ group.id }}"
-                            {% if selected_group and selected_group.id == group.id %}selected{% endif %}
+                            value="{{ groupe.id }}"
+                            {% if selected_group and selected_group.id == groupe.id %}selected{% endif %}
                         >
-                            {{ group.nom }}
+                            {{ groupe.nom }}
                         </option>
                     {% endfor %}
                 </select>
@@ -53,4 +30,40 @@
         </main>
     </section>
 
+    {% if related_group_election is not null %}
+        <section>
+            <header>
+                <h2>Récapitulatif des élections du groupe {{ related_group_election.groupe.nom }}</h2>
+            </header>
+            <main>
+                <p>
+                    Les élections du groupe {{ related_group_election.groupe.nom }} ont été lancées le
+                    {{ related_group_election.date | date('d/m/Y') }} et sont actuellement à l'étape
+                    « {{ related_group_election.etat.name }} ».
+                </p>
+
+                <ul>
+                    {% if related_group_election.etat is same as(etat_election_tour_1) %}
+                        <li>
+                            <a href="/elections/tour-1">Voter pour le Tour 1</a>
+                        </li>
+                    {% elseif related_group_election.etat is same as(etat_election_tour_2) %}
+                        <li>
+                            <a href="/elections/tour-1/resultats">Résultats du Tour 1</a>
+                        </li>
+                        <li>
+                            <a href="/elections/tour-2">Voter pour le Tour 2</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="/elections/tour-1/resultats">Résultats du Tour 1</a>
+                        </li>
+                        <li>
+                            <a href="/elections/resultats">Résultats de l'élection</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </main>
+        </section>
+    {% endif %}
 {% endblock content %}

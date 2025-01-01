@@ -14,14 +14,19 @@ class HomeController
 {
     public function __invoke(): void
     {
+        $selectedGroup = GroupSessionProvider::findSelectedGroup();
+
         TwigEngine::getOrCreateInstance()->renderTemplate(
             templateLocation: 'pages/index.html.twig',
             templateVariables: [
                 'page_title' => 'Bienvenue sur le site des élections 3OLEN !',
-                'current_elections' => (new ElectionRepository())->findCurrentElections(),
-                'election_tour_1' => EtatElectionEnum::TOUR_1,
-                'groups' => (new GroupeRepository())->findAll(),
-                'selected_group' => GroupSessionProvider::findSelectedGroup(),
+                'groupes' => (new GroupeRepository())->findAll(),
+                'selected_group' => $selectedGroup,
+                'related_group_election' => $selectedGroup === null
+                    ? null
+                    : (new ElectionRepository())->findForGroupe($selectedGroup),
+                'etat_election_tour_1' => EtatElectionEnum::TOUR_1,
+                'etat_election_tour_2' => EtatElectionEnum::TOUR_2,
             ]
         );
     }
