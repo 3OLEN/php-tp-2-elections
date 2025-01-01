@@ -17,6 +17,10 @@
                         <li>
                             [{{ election.groupe.nom }}] Lancée le {{ election.date | date('d/m/Y') }} et actuellement à
                             l'étape « {{ election.etat.name }} ».
+
+                            {% if election.etat is not same as(election_tour_1) %}
+                                <a href="/elections/tour-1/resultats">Résultats du Tour 1</a>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>

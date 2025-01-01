@@ -1,0 +1,68 @@
+{% extends "layout/base.html.twig" %}
+
+{% block content %}
+    <section>
+        <header>
+            <h2>Compteurs des élections du groupe {{ election.groupe.nom }}</h2>
+        </header>
+        <main>
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">Rang</th>
+                    <th scope="col">Candidat</th>
+                    <th scope="col">Votes</th>
+                    <th scope="col">Pourcentage</th>
+                    <th scope="col">Décision</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% set candidat_rank = 0 %}
+                {% set previous_percentage = null %}
+                {% set next_increment_if_different = 1 %}
+                {% for candidat_compteur_votes in votes %}
+                    {% set percentage = (candidat_compteur_votes.compteurVotes / nb_total_votes * 100) | round(2) %}
+                    {% if percentage is not same as(previous_percentage) %}
+                        {% set candidat_rank = candidat_rank + next_increment_if_different %}
+                        {% set next_increment_if_different = 1 %}
+                    {% else %}
+                        {% set next_increment_if_different = next_increment_if_different + 1 %}
+                    {% endif %}
+                    {% set previous_percentage = percentage %}
+                    
+                    <tr>
+                        <td>{{ candidat_rank }}</td>
+                        <td>
+                            {% if candidat_compteur_votes.candidat is null %}
+                                <em>-- Vote nul --</em>
+                            {% else %}
+                                {{ candidat_compteur_votes.candidat }}
+                            {% endif %}
+                        </td>
+                        <td>{{ candidat_compteur_votes.compteurVotes }}</td>
+                        <td>{{ percentage }} %</td>
+                        <td>
+                            {% if candidat_compteur_votes.candidat is not null %}
+                                {% if percentage >= 75 %}
+                                    <strong>Élu·e</strong>
+                                {% else %}
+                                    Second tour
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="/">Retour à l'accueil</a>
+            {% if election.etat is same as(election_tour_2) %}
+                <a href="/elections/tour-2">Accéder au second tour</a>
+            {% else %}
+                <a href="/elections/resultats">Résultats de l'élection</a>
+            {% endif %}
+        </main>
+    </section>
+{% endblock content %}
+

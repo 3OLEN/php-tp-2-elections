@@ -10,6 +10,7 @@ use TpElections\Controller\{
     Elections\ElectionsController,
     Elections\Tour1\ElectionsTour1Controller,
     Elections\Tour1\ElectionsTour1PostController,
+    Elections\Tour1\Resultats\ElectionsTour1ResultatsController,
     Error\NotFoundErrorController,
     Groupes\Selection\SelectionGroupeController,
     Home\HomeController
@@ -18,7 +19,8 @@ use TpElections\Exception\{
     Controller\RequiredElectionForGroupeException,
     Controller\RequiredSelectedGroupException,
     Web\NotFoundException,
-    Web\UnsupportedResourceException};
+    Web\UnsupportedResourceException
+};
 use TpElections\Utils\{
     File\ApplicationFileUtil,
     Router\PathUtil
@@ -63,6 +65,7 @@ readonly class Router
             '/elections/tour-1' => $requestMethod === 'POST'
                 ? new ElectionsTour1PostController()
                 : new ElectionsTour1Controller(),
+            '/elections/tour-1/resultats' => new ElectionsTour1ResultatsController(),
             '/groupes/selection' => $requestMethod === 'POST'
                 ? new SelectionGroupeController()
                 : null,
