@@ -97,14 +97,14 @@ SQL
 SELECT COUNT(i.*)
 FROM individu i
     INNER JOIN groupe g ON i.groupe_id = g.id
-    LEFT JOIN vote v ON v.votant_id = i.id AND v.tour = :tour
+    LEFT JOIN vote v ON v.votant_id = i.id AND v.election_id = :election_id AND v.tour = :tour
 WHERE g.id = :groupe_id
-    AND v.election_id = :election_id
+    AND v.id IS NULL
 SQL
         );
         $statement->bindValue(param: ':tour', value: $tour->name);
-        $statement->bindValue(param: ':groupe_id', value: $election->getGroupe()->id, type: \PDO::PARAM_INT);
         $statement->bindValue(param: ':election_id', value: $election->id, type: \PDO::PARAM_INT);
+        $statement->bindValue(param: ':groupe_id', value: $election->getGroupe()->id, type: \PDO::PARAM_INT);
         $statement->execute();
 
         return (int) $statement->fetchColumn() === 0;

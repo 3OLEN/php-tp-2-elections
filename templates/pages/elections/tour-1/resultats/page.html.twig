@@ -1,0 +1,19 @@
+{% extends "layout/elections/resultats.html.twig" %}
+
+{% block decision %}
+    {% if candidat_compteur_votes.candidat is not null %}
+        {% if percentage >= 75 %}
+            <strong>Élu·e</strong>
+        {% else %}
+            Second tour
+        {% endif %}
+    {% endif %}
+{% endblock decision %}
+
+{% block other_links %}
+    {% if election.etat is same as(election_tour_2) %}
+        <a href="/elections/tour-2">Accéder au second tour</a>
+    {% else %}
+        <a href="/elections/resultats">Résultats de l'élection</a>
+    {% endif %}
+{% endblock other_links %}

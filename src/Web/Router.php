@@ -8,6 +8,7 @@ use TpElections\Controller\{
     Elections\Creation\ElectionsCreationController,
     Elections\Creation\ElectionsCreationPostController,
     Elections\ElectionsController,
+    Elections\Resultats\ElectionsResultatsController,
     Elections\Tour1\ElectionsTour1Controller,
     Elections\Tour1\ElectionsTour1PostController,
     Elections\Tour1\Resultats\ElectionsTour1ResultatsController,
@@ -15,7 +16,8 @@ use TpElections\Controller\{
     Elections\Tour2\ElectionsTour2PostController,
     Error\NotFoundErrorController,
     Groupes\Selection\SelectionGroupeController,
-    Home\HomeController};
+    Home\HomeController
+};
 use TpElections\Exception\{
     Controller\RequiredElectionForGroupeException,
     Controller\RequiredSelectedGroupException,
@@ -63,6 +65,7 @@ readonly class Router
             '/elections/creation' => $requestMethod === 'POST'
                 ? new ElectionsCreationPostController()
                 : new ElectionsCreationController(),
+            '/elections/resultats' => new ElectionsResultatsController(),
             '/elections/tour-1' => $requestMethod === 'POST'
                 ? new ElectionsTour1PostController()
                 : new ElectionsTour1Controller(),

@@ -1,0 +1,15 @@
+{% extends "layout/elections/resultats.html.twig" %}
+
+{% block decision %}
+    {% if candidat_compteur_votes.candidat is not null %}
+        {% if candidat_rank is same as(1) %}
+            <strong>Délégué·e</strong>
+        {% elseif candidat_rank is same as(2) %}
+            Suppléant·e
+        {% endif %}
+    {% endif %}
+{% endblock decision %}
+
+{% block other_links %}
+    <a href="/elections/tour-1/resultats">Afficher résultats du tour 1</a>
+{% endblock other_links %}

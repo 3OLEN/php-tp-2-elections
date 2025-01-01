@@ -30,7 +30,7 @@
                         {% set next_increment_if_different = next_increment_if_different + 1 %}
                     {% endif %}
                     {% set previous_percentage = percentage %}
-                    
+
                     <tr>
                         <td>{{ candidat_rank }}</td>
                         <td>
@@ -43,13 +43,7 @@
                         <td>{{ candidat_compteur_votes.compteurVotes }}</td>
                         <td>{{ percentage }} %</td>
                         <td>
-                            {% if candidat_compteur_votes.candidat is not null %}
-                                {% if percentage >= 75 %}
-                                    <strong>Élu·e</strong>
-                                {% else %}
-                                    Second tour
-                                {% endif %}
-                            {% endif %}
+                            {% block decision %}{% endblock decision %}
                         </td>
                     </tr>
                 {% endfor %}
@@ -57,12 +51,7 @@
             </table>
 
             <a href="/">Retour à l'accueil</a>
-            {% if election.etat is same as(election_tour_2) %}
-                <a href="/elections/tour-2">Accéder au second tour</a>
-            {% else %}
-                <a href="/elections/resultats">Résultats de l'élection</a>
-            {% endif %}
+            {% block other_links %}{% endblock other_links %}
         </main>
     </section>
 {% endblock content %}
-
