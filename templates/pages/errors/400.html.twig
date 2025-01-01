@@ -1,0 +1,9 @@
+{% set page_title = 'Requête invalide !' %}
+{% extends 'layout/base.html.twig' %}
+
+{% block content %}
+    <p>La requête a été rejetée pour la raison suivante :</p>
+    <p>{{ error_message }}</p>
+    <p>Veuillez vérifier les informations saisies et réessayer.</p>
+    <a href="/">Retour à l'accueil</a>
+{% endblock content %}
