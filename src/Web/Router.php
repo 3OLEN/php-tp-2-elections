@@ -11,10 +11,11 @@ use TpElections\Controller\{
     Elections\Tour1\ElectionsTour1Controller,
     Elections\Tour1\ElectionsTour1PostController,
     Elections\Tour1\Resultats\ElectionsTour1ResultatsController,
+    Elections\Tour2\ElectionsTour2Controller,
+    Elections\Tour2\ElectionsTour2PostController,
     Error\NotFoundErrorController,
     Groupes\Selection\SelectionGroupeController,
-    Home\HomeController
-};
+    Home\HomeController};
 use TpElections\Exception\{
     Controller\RequiredElectionForGroupeException,
     Controller\RequiredSelectedGroupException,
@@ -66,6 +67,9 @@ readonly class Router
                 ? new ElectionsTour1PostController()
                 : new ElectionsTour1Controller(),
             '/elections/tour-1/resultats' => new ElectionsTour1ResultatsController(),
+            '/elections/tour-2' => $requestMethod === 'POST'
+                ? new ElectionsTour2PostController()
+                : new ElectionsTour2Controller(),
             '/groupes/selection' => $requestMethod === 'POST'
                 ? new SelectionGroupeController()
                 : null,

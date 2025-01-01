@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace TpElections\Controller\Elections\Tour1;
+namespace TpElections\Controller\Elections\Tour2;
 
 use TpElections\Controller\Elections\AbstractVoteController;
 use TpElections\Model\Enum\TourEnum;
 
-class ElectionsTour1Controller extends AbstractVoteController
+class ElectionsTour2Controller extends AbstractVoteController
 {
     protected function getElectionTour(): TourEnum
     {
-        return TourEnum::TOUR_1;
+        return TourEnum::TOUR_2;
     }
 }

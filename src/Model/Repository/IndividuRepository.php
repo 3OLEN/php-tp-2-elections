@@ -8,6 +8,7 @@ use TpElections\Model\DbConnection;
 use TpElections\Model\Entity\Election;
 use TpElections\Model\Entity\Groupe;
 use TpElections\Model\Entity\Individu;
+use TpElections\Model\Enum\TourEnum;
 use TpElections\Utils\Model\Enum\TourEnumUtil;
 
 class IndividuRepository
@@ -65,7 +66,7 @@ SQL
         return $individus;
     }
 
-    public static function findThoseWhoMustVoteForElection(Election $election): array
+    public function findThoseWhoMustVoteForElection(Election $election): array
     {
         $voteTour = TourEnumUtil::getTourForElection(election: $election);
 
@@ -95,6 +96,33 @@ SQL
         }
 
         return $thoseWhoMustVote;
+    }
+
+    public function findCandidatsForElection(Election $election): array
+    {
+        $statement = DbConnection::getOrCreateInstance()->pdo->prepare(
+            query: <<<SQL
+SELECT DISTINCT i.*
+FROM individu i
+    INNER JOIN vote v ON i.id = v.candidat_id AND v.election_id = :election_id AND v.tour = :tour
+ORDER BY i.nom, i.prenom
+SQL
+        );
+        $statement->bindValue(param: ':election_id', value: $election->id, type: \PDO::PARAM_INT);
+        $statement->bindValue(param: ':tour', value: TourEnum::TOUR_1->name);
+        $statement->execute();
+
+        $candidats = [];
+        foreach ($statement->fetchAll() as $individuDbData) {
+            $candidats[] = new Individu(
+                id: $individuDbData['id'],
+                nom: $individuDbData['nom'],
+                prenom: $individuDbData['prenom'],
+                groupe: $election->getGroupe(),
+            );
+        }
+
+        return $candidats;
     }
 
     public function countForGroupe(Groupe $groupe): int
